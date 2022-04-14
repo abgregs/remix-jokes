@@ -7,6 +7,10 @@ import { db } from '~/utils/db.server';
 
 type LoaderData = { randomJoke: Joke };
 
+export function ErrorBoundary() {
+  return <div className='error-container'>I did a whoopsies.</div>;
+}
+
 export const loader: LoaderFunction = async () => {
   const count = await db.joke.count();
   const randomRowNumber = Math.floor(Math.random() * count);

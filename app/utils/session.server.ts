@@ -8,6 +8,14 @@ type LoginForm = {
   password: string;
 };
 
+export async function register({ username, password }: LoginForm) {
+  const passwordHash = await bcrypt.hash(password, 10);
+  const user = await db.user.create({
+    data: { username, passwordHash },
+  });
+  return { id: user.id, username };
+}
+
 export async function login({ username, password }: LoginForm) {
   const user = await db.user.findUnique({
     where: { username },
@@ -74,7 +82,7 @@ export async function createUserSession(userId: string, redirectTo: string) {
 
 export async function getUser(request: Request) {
   const userId = await getUserId(request);
-  if (typeof userId !== "string") {
+  if (typeof userId !== 'string') {
     return null;
   }
 
@@ -91,9 +99,9 @@ export async function getUser(request: Request) {
 
 export async function logout(request: Request) {
   const session = await getUserSession(request);
-  return redirect("/login", {
+  return redirect('/login', {
     headers: {
-      "Set-Cookie": await storage.destroySession(session),
+      'Set-Cookie': await storage.destroySession(session),
     },
   });
 }
