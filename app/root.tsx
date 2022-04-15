@@ -1,25 +1,30 @@
-import type { LinksFunction } from '@remix-run/node';
-import { Links, LiveReload, Outlet } from '@remix-run/react';
+import type { LinksFunction } from "@remix-run/node";
+import {
+  Links,
+  LiveReload,
+  Outlet,
+  useCatch,
+} from "@remix-run/react";
 
-import globalStylesUrl from './styles/global.css';
-import globalMediumStylesUrl from './styles/global-medium.css';
-import globalLargeStylesUrl from './styles/global-large.css';
+import globalStylesUrl from "./styles/global.css";
+import globalMediumStylesUrl from "./styles/global-medium.css";
+import globalLargeStylesUrl from "./styles/global-large.css";
 
 export const links: LinksFunction = () => {
   return [
     {
-      rel: 'stylesheet',
+      rel: "stylesheet",
       href: globalStylesUrl,
     },
     {
-      rel: 'stylesheet',
+      rel: "stylesheet",
       href: globalMediumStylesUrl,
-      media: 'print, (min-width: 640px)',
+      media: "print, (min-width: 640px)",
     },
     {
-      rel: 'stylesheet',
+      rel: "stylesheet",
       href: globalLargeStylesUrl,
-      media: 'screen and (min-width: 1024px)',
+      media: "screen and (min-width: 1024px)",
     },
   ];
 };
@@ -32,9 +37,9 @@ function Document({
   title?: string;
 }) {
   return (
-    <html lang='en'>
+    <html lang="en">
       <head>
-        <meta charSet='utf-8' />
+        <meta charSet="utf-8" />
         <title>{title}</title>
         <Links />
       </head>
@@ -53,11 +58,27 @@ export default function App() {
     </Document>
   );
 }
-// 60
+
+export function CatchBoundary() {
+  const caught = useCatch();
+
+  return (
+    <Document
+      title={`${caught.status} ${caught.statusText}`}
+    >
+      <div className="error-container">
+        <h1>
+          {caught.status} {caught.statusText}
+        </h1>
+      </div>
+    </Document>
+  );
+}
+
 export function ErrorBoundary({ error }: { error: Error }) {
   return (
-    <Document title='Uh-oh!'>
-      <div className='error-container'>
+    <Document title="Uh-oh!">
+      <div className="error-container">
         <h1>App Error</h1>
         <pre>{error.message}</pre>
       </div>
