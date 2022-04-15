@@ -1,13 +1,24 @@
-import type { ActionFunction, LinksFunction } from '@remix-run/node';
+import type {
+  ActionFunction,
+  LinksFunction,
+  MetaFunction,
+} from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { useActionData, Link, useSearchParams } from '@remix-run/react';
+import { useActionData, useSearchParams, Link } from '@remix-run/react';
 
 import { db } from '~/utils/db.server';
-import { login, register, createUserSession } from '~/utils/session.server';
+import { createUserSession, login, register } from '~/utils/session.server';
 import stylesUrl from '~/styles/login.css';
 
 export const links: LinksFunction = () => {
   return [{ rel: 'stylesheet', href: stylesUrl }];
+};
+
+export const meta: MetaFunction = () => {
+  return {
+    title: 'Remix Jokes | Login',
+    description: 'Login to submit your own jokes to Remix Jokes!',
+  };
 };
 
 function validateUsername(username: unknown) {
@@ -23,7 +34,6 @@ function validatePassword(password: unknown) {
 }
 
 function validateUrl(url: any) {
-  console.log(url);
   let urls = ['/jokes', '/', 'https://remix.run'];
   if (urls.includes(url)) {
     return url;
@@ -74,7 +84,6 @@ export const action: ActionFunction = async ({ request }) => {
   switch (loginType) {
     case 'login': {
       const user = await login({ username, password });
-      console.log({ user });
       if (!user) {
         return badRequest({
           fields,
