@@ -1,4 +1,8 @@
-# Welcome to Remix!
+# Remix Jokes App Tutorial
+
+This project follows the [Remix jokes app tutorial](https://remix.run/docs/en/v1/tutorials/jokes) and is deployed on Fly.io. You can [view the deployed project here](https://austin-remix-jokes.fly.dev).
+
+## Welcome to Remix!
 
 - [Remix Docs](https://remix.run/docs)
 
@@ -7,7 +11,7 @@
 From your terminal:
 
 ```sh
-npm run dev
+yarn dev
 ```
 
 This starts your app in development mode, rebuilding assets on file changes.
@@ -17,16 +21,16 @@ This starts your app in development mode, rebuilding assets on file changes.
 First, build your app for production:
 
 ```sh
-npm run build
+yarn build
 ```
 
 Then run the app in production mode:
 
 ```sh
-npm start
+yarn start
 ```
 
-Now you'll need to pick a host to deploy it to.
+This app is configured and deployed with Fly.io per the tutorial docs. See below for info on other deployment options.
 
 ### DIY
 
